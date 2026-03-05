@@ -453,9 +453,19 @@ h1 span {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.repo-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.links-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .post-card,
 .project-card,
-.lab-card {
+.lab-card,
+.repo-card,
+.external-link-card {
   padding: 20px;
 }
 
@@ -540,6 +550,70 @@ h1 span {
   color: #c9f0ff;
 }
 
+.repo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.repo-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.repo-header h3 a {
+  color: var(--text);
+}
+
+.repo-header h3 a:hover {
+  color: var(--accent);
+}
+
+.repo-card p {
+  margin: 12px 0 0;
+}
+
+.fork-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.repo-meta {
+  margin-top: 14px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.repo-link {
+  margin-top: 12px;
+  display: inline-flex;
+  color: var(--accent);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.external-link-card h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.external-link-card p {
+  margin: 10px 0;
+  color: var(--muted);
+}
+
+.external-link-card a {
+  color: var(--accent);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  word-break: break-all;
+}
+
 .featured-post {
   padding: 24px;
 }
@@ -617,6 +691,120 @@ h1 span {
   padding: 20px;
 }
 
+.skill-summary-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+}
+
+.skill-summary-grid article {
+  padding: 20px;
+}
+
+.skill-summary-grid h3,
+.tech-wall h3,
+.about-links h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.simple-stats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.simple-stats li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(91, 231, 255, 0.2);
+  background: rgba(8, 13, 24, 0.65);
+}
+
+.simple-stats strong {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+}
+
+.simple-stats span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tech-wall {
+  padding: 20px;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.profile-head img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(91, 231, 255, 0.42);
+}
+
+.profile-head h3 {
+  margin: 0;
+}
+
+.profile-head p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.about-links {
+  padding: 20px;
+}
+
+.inline-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.inline-links a {
+  display: grid;
+  gap: 2px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(91, 231, 255, 0.2);
+  background: rgba(8, 13, 24, 0.62);
+}
+
+.inline-links a:hover {
+  border-color: var(--line-strong);
+}
+
+.inline-links span {
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.inline-links small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.snapshot-date {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .skill-tags {
   display: flex;
   flex-wrap: wrap;
@@ -687,12 +875,15 @@ h1 span {
 @media (max-width: 1080px) {
   .hero,
   .lab-top-grid,
-  .about-grid {
+  .about-grid,
+  .skill-summary-grid {
     grid-template-columns: 1fr;
   }
 
   .posts-grid,
-  .projects-grid {
+  .projects-grid,
+  .repo-grid,
+  .links-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -727,17 +918,28 @@ h1 span {
   .post-card,
   .project-card,
   .lab-card,
+  .repo-card,
+  .external-link-card,
   .section-title,
   .featured-post,
   .roadmap,
+  .tech-wall,
+  .about-links,
   .about-grid article,
+  .skill-summary-grid article,
   .site-footer,
   .signal-card {
     padding: 16px;
   }
 
   .posts-grid,
-  .projects-grid {
+  .projects-grid,
+  .repo-grid,
+  .links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-links {
     grid-template-columns: 1fr;
   }
 

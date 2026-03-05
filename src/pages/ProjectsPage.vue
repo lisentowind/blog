@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import ProjectCard from '../components/cards/ProjectCard.vue'
+import ExternalLinkCard from '../components/cards/ExternalLinkCard.vue'
+import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
-import { projects } from '../data/content'
+import { pinnedRepos, profileLinks, skillTags } from '../data/content'
 
-const milestones = [
-  'Q1: 重构内容后台，统一项目发布流程。',
-  'Q2: 增加实验数据看板和自动周报。',
-  'Q3: 开放部分组件库与模板。',
-]
+const highlightedSkills = skillTags.slice(0, 12)
 </script>
 
 <template>
   <div class="page projects-page">
     <SectionTitle
-      eyebrow="Projects"
-      title="项目与作品"
-      description="把文章中的思路变成可运行项目，持续迭代。"
+      eyebrow="GitHub Pinned"
+      title="置顶仓库与链接"
+      description="完整展示你的 6 个置顶仓库，以及常用外链入口。"
     />
 
-    <section class="card-grid projects-grid">
-      <ProjectCard
-        v-for="(project, index) in projects"
-        :key="project.name"
-        :project="project"
+    <section class="card-grid repo-grid">
+      <PinnedRepoCard
+        v-for="(repo, index) in pinnedRepos"
+        :key="repo.name"
+        :repo="repo"
         class="reveal"
-        :style="{ '--delay': `${120 + index * 90}ms` }"
+        :style="{ '--delay': `${120 + index * 80}ms` }"
       />
     </section>
 
-    <section class="roadmap glass-panel reveal" style="--delay: 560ms">
-      <h3>Roadmap</h3>
-      <ul>
-        <li v-for="item in milestones" :key="item">{{ item }}</li>
-      </ul>
+    <section class="tech-wall glass-panel reveal" style="--delay: 620ms">
+      <h3>常用技术栈</h3>
+      <div class="skill-tags">
+        <span v-for="tag in highlightedSkills" :key="tag">{{ tag }}</span>
+      </div>
+    </section>
+
+    <SectionTitle eyebrow="Links" title="固定链接" description="主页、个人仓库与项目演示入口。" />
+    <section class="card-grid links-grid">
+      <ExternalLinkCard
+        v-for="(link, index) in profileLinks"
+        :key="link.href"
+        :link="link"
+        class="reveal"
+        :style="{ '--delay': `${760 + index * 80}ms` }"
+      />
     </section>
   </div>
 </template>

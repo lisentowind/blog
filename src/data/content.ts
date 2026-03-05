@@ -31,6 +31,38 @@ export type Stat = {
   label: string
 }
 
+export type GitHubProfile = {
+  name: string
+  login: string
+  location: string
+  followers: number
+  following: number
+  publicRepos: number
+  avatarUrl: string
+  profileUrl: string
+  profileRepoUrl: string
+  snapshotDate: string
+}
+
+export type PinnedRepo = {
+  name: string
+  htmlUrl: string
+  description: string
+  language: string
+  stars: number
+  forks: number
+  updatedAt: string
+  homepage?: string
+  fork: boolean
+  parent?: string
+}
+
+export type ProfileLink = {
+  label: string
+  href: string
+  note: string
+}
+
 export const navLinks: NavLink[] = [
   { label: 'Home', to: '/' },
   { label: 'Blog', to: '/blog' },
@@ -39,10 +71,23 @@ export const navLinks: NavLink[] = [
   { label: 'About', to: '/about' },
 ]
 
+export const githubProfile: GitHubProfile = {
+  name: 'love nico',
+  login: 'lisentowind',
+  location: 'Chengdu',
+  followers: 368,
+  following: 600,
+  publicRepos: 97,
+  avatarUrl: 'https://avatars.githubusercontent.com/u/88653280?v=4',
+  profileUrl: 'https://github.com/lisentowind',
+  profileRepoUrl: 'https://github.com/lisentowind/lisentowind',
+  snapshotDate: '2026-03-05',
+}
+
 export const heroStats: Stat[] = [
-  { value: '52', label: '深度文章' },
-  { value: '17', label: '开源实验' },
-  { value: '8.9K', label: '月度访问' },
+  { value: String(githubProfile.publicRepos), label: 'Public Repos' },
+  { value: String(githubProfile.followers), label: 'Followers' },
+  { value: String(githubProfile.following), label: 'Following' },
 ]
 
 export const posts: Post[] = [
@@ -83,34 +128,93 @@ export const posts: Post[] = [
   },
 ]
 
-export const projects: Project[] = [
+export const pinnedRepos: PinnedRepo[] = [
   {
-    name: 'Neon Chronicle',
-    role: '个人内容引擎',
-    stack: ['Vue 3', 'Vite', 'Edge Functions'],
-    status: 'RUNNING',
-    desc: '博客、速记、实验日志统一发布，自动生成结构化摘要和标签图谱。',
+    name: 'x-markdown',
+    htmlUrl: 'https://github.com/lisentowind/x-markdown',
+    description: 'markdown渲染器',
+    language: 'Vue',
+    stars: 1,
+    forks: 0,
+    updatedAt: '2026-01-28',
+    fork: true,
+    parent: 'element-plus-x/x-markdown',
   },
   {
-    name: 'Signal Deck',
-    role: '实时监控面板',
-    stack: ['TypeScript', 'WebSocket', 'D3'],
-    status: 'OPTIMIZING',
-    desc: '将服务端事件流压缩成可读时间轨迹，用于快速定位线上波动。',
+    name: 'Element-Plus-X',
+    htmlUrl: 'https://github.com/lisentowind/Element-Plus-X',
+    description: 'Vue3 + Element-Plus 开箱即用的企业级 AI 组件库前端解决方案。',
+    language: 'Vue',
+    stars: 0,
+    forks: 0,
+    updatedAt: '2025-09-03',
+    homepage: 'https://element-plus-x.com',
+    fork: true,
+    parent: 'element-plus-x/Element-Plus-X',
   },
   {
-    name: 'Prompt Forge',
-    role: '提示词实验室',
-    stack: ['Node.js', 'SQLite', 'CLI'],
-    status: 'BUILDING',
-    desc: '版本化记录提示策略，追踪每次改动对准确率和成本的影响。',
+    name: 'vue-shiki-monaco',
+    htmlUrl: 'https://github.com/lisentowind/vue-shiki-monaco',
+    description: '使用 Monaco Editor 和 Shiki 高亮的 Vue3 组件。',
+    language: 'TypeScript',
+    stars: 5,
+    forks: 2,
+    updatedAt: '2026-01-21',
+    homepage: 'https://lisentowind.github.io/vue-shiki-monaco/',
+    fork: false,
   },
   {
-    name: 'Pulse Studio',
-    role: '交互组件库',
-    stack: ['Vue', 'Storybook', 'Vitest'],
-    status: 'ACTIVE',
-    desc: '维护科技风视觉组件，输出可复用主题和动效模式。',
+    name: 'Element-Plus-X-Go',
+    htmlUrl: 'https://github.com/lisentowind/Element-Plus-X-Go',
+    description: '基于 Element-Plus-X 开发的桌面端项目模板。',
+    language: 'Vue',
+    stars: 2,
+    forks: 0,
+    updatedAt: '2025-11-10',
+    fork: false,
+  },
+  {
+    name: 'vue3-ts-antd-unocss-demo',
+    htmlUrl: 'https://github.com/lisentowind/vue3-ts-antd-unocss-demo',
+    description: 'Vue3 + TS + Antd + UnoCSS 快速启动项目。',
+    language: 'Vue',
+    stars: 1,
+    forks: 1,
+    updatedAt: '2026-03-02',
+    fork: false,
+  },
+  {
+    name: 'front-backend-demo',
+    htmlUrl: 'https://github.com/lisentowind/front-backend-demo',
+    description: 'Go + Vue3 的前后端联调示例项目。',
+    language: 'Vue',
+    stars: 0,
+    forks: 0,
+    updatedAt: '2026-01-21',
+    fork: false,
+  },
+]
+
+export const profileLinks: ProfileLink[] = [
+  {
+    label: 'GitHub Profile',
+    href: 'https://github.com/lisentowind',
+    note: '主页与动态',
+  },
+  {
+    label: 'Profile README',
+    href: 'https://github.com/lisentowind/lisentowind',
+    note: '个人简介仓库',
+  },
+  {
+    label: 'Element-Plus-X Site',
+    href: 'https://element-plus-x.com',
+    note: '组件库官网',
+  },
+  {
+    label: 'vue-shiki-monaco Demo',
+    href: 'https://lisentowind.github.io/vue-shiki-monaco/',
+    note: '在线演示',
   },
 ]
 
@@ -136,18 +240,31 @@ export const labEntries: LabEntry[] = [
 ]
 
 export const aboutBullets: string[] = [
-  '前端工程师，关注工程效率、性能体验与交互设计。',
-  '长期写作 TypeScript、Vue、AI workflow 相关内容。',
-  '喜欢把复杂技术讲清楚，也喜欢把页面打磨到有记忆点。',
+  '平时主要在公司 GitLab 和 Gitee 上开发。',
+  '喜欢在 GitHub 上逛有趣的开源项目并做技术探索。',
+  '偏好前端动效、组件封装和工程化实践。',
 ]
 
 export const skillTags: string[] = [
-  'Vue 3',
-  'TypeScript',
+  'Vue.js',
+  'React',
   'Vite',
+  'TypeScript',
+  'JavaScript',
+  'Go',
+  'HTML5',
+  'CSS3',
+  'SCSS',
+  'Less',
+  'Electron',
+  'Wails',
   'Node.js',
-  'Motion Design',
-  'Web Performance',
-  'DX Automation',
-  'AI Tooling',
+  'Express',
+  'Tauri',
+]
+
+export const languageSummary: Stat[] = [
+  { value: '13', label: 'TypeScript Repos' },
+  { value: '8', label: 'Vue Repos' },
+  { value: '1', label: 'Go Repos' },
 ]
