@@ -1,19 +1,31 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import ExternalLinkCard from '../components/cards/ExternalLinkCard.vue'
 import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
-import { pinnedRepos, profileLinks, skillTags } from '../data/content'
+import { useGithubData } from '../composables/useGithubData'
+import { profileLinks, skillTags } from '../data/content'
 
+const { pinnedRepos, loading, error, loadGithubData } = useGithubData()
 const highlightedSkills = skillTags.slice(0, 12)
+
+onMounted(() => {
+  void loadGithubData()
+})
 </script>
 
 <template>
   <div class="page projects-page">
     <SectionTitle
-      eyebrow="GitHub Pinned"
-      title="置顶仓库与链接"
-      description="完整展示你的 6 个置顶仓库，以及常用外链入口。"
+      eyebrow="GitHub Repositories"
+      title="固定仓库与链接"
+      description="仓库卡片信息由 GitHub API 动态返回。"
     />
+
+    <section v-if="error" class="glass-panel status-card reveal" style="--delay: 120ms">
+      <h3>GitHub API Error</h3>
+      <p>{{ error }}</p>
+    </section>
 
     <section class="card-grid repo-grid">
       <PinnedRepoCard
@@ -23,6 +35,9 @@ const highlightedSkills = skillTags.slice(0, 12)
         class="reveal"
         :style="{ '--delay': `${120 + index * 80}ms` }"
       />
+      <article v-if="loading && pinnedRepos.length === 0" class="glass-panel status-card reveal" style="--delay: 120ms">
+        <h3>Loading repositories...</h3>
+      </article>
     </section>
 
     <section class="tech-wall glass-panel reveal" style="--delay: 620ms">

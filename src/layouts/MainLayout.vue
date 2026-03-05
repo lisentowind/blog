@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import CyberNav from '../components/common/CyberNav.vue'
+import { useGithubData } from '../composables/useGithubData'
 import { navLinks } from '../data/content'
 
 type Dot = {
@@ -11,6 +13,8 @@ type Dot = {
   duration: string
 }
 
+const { displayName, loadGithubData } = useGithubData()
+
 const dots: Dot[] = Array.from({ length: 30 }, () => ({
   top: `${Math.random() * 100}%`,
   left: `${Math.random() * 100}%`,
@@ -18,6 +22,10 @@ const dots: Dot[] = Array.from({ length: 30 }, () => ({
   delay: `${Math.random() * 6}s`,
   duration: `${Math.random() * 4 + 4}s`,
 }))
+
+onMounted(() => {
+  void loadGithubData()
+})
 </script>
 
 <template>
@@ -25,6 +33,7 @@ const dots: Dot[] = Array.from({ length: 30 }, () => ({
     <div class="ambient ambient-a" />
     <div class="ambient ambient-b" />
     <div class="grid-overlay" />
+    <div class="circuit-overlay" />
 
     <div class="dot-layer" aria-hidden="true">
       <span
@@ -42,7 +51,7 @@ const dots: Dot[] = Array.from({ length: 30 }, () => ({
       />
     </div>
 
-    <CyberNav :links="navLinks" />
+    <CyberNav :links="navLinks" :brand-name="displayName" />
 
     <main class="page-main">
       <RouterView v-slot="{ Component, route }">
@@ -53,7 +62,7 @@ const dots: Dot[] = Array.from({ length: 30 }, () => ({
     </main>
 
     <footer class="site-footer glass-panel reveal">
-      <p>© 2026 TF.NEXUS / Crafted with Vue + TypeScript</p>
+      <p>© 2026 {{ displayName }} / GitHub Portfolio</p>
       <RouterLink to="/about">Back to profile</RouterLink>
     </footer>
   </div>

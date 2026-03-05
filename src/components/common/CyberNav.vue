@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import type { NavLink } from '../../data/content'
+import ThemeToggle from './ThemeToggle.vue'
 
 defineProps<{
   links: NavLink[]
+  brandName: string
 }>()
 
 const floating = ref(false)
@@ -27,7 +29,7 @@ onBeforeUnmount(() => {
     <header class="cyber-nav reveal" :class="{ floating }" style="--delay: 0ms">
       <RouterLink class="brand" to="/">
         <span class="brand-mark" />
-        <span class="brand-name">TF.NEXUS</span>
+        <span class="brand-name">{{ brandName }}</span>
       </RouterLink>
 
       <nav class="nav-links">
@@ -42,7 +44,10 @@ onBeforeUnmount(() => {
         </RouterLink>
       </nav>
 
-      <RouterLink class="subscribe" to="/about">Contact</RouterLink>
+      <div class="nav-actions">
+        <ThemeToggle />
+        <RouterLink class="subscribe" to="/about">Contact</RouterLink>
+      </div>
     </header>
   </div>
 </template>

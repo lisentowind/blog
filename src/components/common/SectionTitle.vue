@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <header class="section-title reveal">
+  <header class="section-title glass-panel reveal">
     <p>{{ eyebrow }}</p>
     <h2>{{ title }}</h2>
     <p v-if="description" class="desc">{{ description }}</p>
