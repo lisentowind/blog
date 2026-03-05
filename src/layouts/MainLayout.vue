@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { RouterView } from 'vue-router'
 import CyberNav from '../components/common/CyberNav.vue'
 import { useGithubData } from '../composables/useGithubData'
@@ -13,7 +13,8 @@ type Dot = {
   duration: string
 }
 
-const { displayName, loadGithubData } = useGithubData()
+const { profile, displayName, loadGithubData } = useGithubData()
+const brandLabel = computed(() => `${displayName.value} 博客`)
 
 const dots: Dot[] = Array.from({ length: 30 }, () => ({
   top: `${Math.random() * 100}%`,
@@ -26,6 +27,25 @@ const dots: Dot[] = Array.from({ length: 30 }, () => ({
 onMounted(() => {
   void loadGithubData()
 })
+
+watch(
+  [brandLabel, () => profile.value.avatarUrl],
+  ([label, avatarUrl]) => {
+    document.title = label
+
+    const icon =
+      (document.querySelector("link[rel='icon']") as HTMLLinkElement | null) ??
+      document.createElement('link')
+    icon.rel = 'icon'
+    icon.type = 'image/png'
+    icon.href = avatarUrl
+
+    if (!icon.parentNode) {
+      document.head.appendChild(icon)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -51,7 +71,7 @@ onMounted(() => {
       />
     </div>
 
-    <CyberNav :links="navLinks" :brand-name="displayName" />
+    <CyberNav :links="navLinks" :brand-name="brandLabel" :brand-avatar="profile.avatarUrl" />
 
     <main class="page-main">
       <RouterView v-slot="{ Component, route }">

@@ -6,6 +6,7 @@ import ThemeToggle from './ThemeToggle.vue'
 defineProps<{
   links: NavLink[]
   brandName: string
+  brandAvatar?: string
 }>()
 
 const floating = ref(false)
@@ -28,7 +29,8 @@ onBeforeUnmount(() => {
   <div class="nav-wrap">
     <header class="cyber-nav reveal" :class="{ floating }" style="--delay: 0ms">
       <RouterLink class="brand" to="/">
-        <span class="brand-mark" />
+        <img v-if="brandAvatar" class="brand-avatar" :src="brandAvatar" :alt="brandName" />
+        <span v-else class="brand-mark" />
         <span class="brand-name">{{ brandName }}</span>
       </RouterLink>
 

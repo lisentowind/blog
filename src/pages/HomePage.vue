@@ -40,7 +40,7 @@ onMounted(() => {
           {{ profile.name }}
           <span>@{{ profile.login }}</span>
         </h1>
-        <p class="summary">进入页面后实时从 GitHub API 拉取你的最新资料、仓库和语言统计。</p>
+        <p class="summary">慢一点也没关系，重要的是你始终在向前走。</p>
         <div class="hero-actions">
           <CyberButton :href="profile.profileUrl">Open GitHub</CyberButton>
           <CyberButton variant="outline" to="/projects">Open Repositories</CyberButton>
