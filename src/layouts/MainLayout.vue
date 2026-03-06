@@ -2,6 +2,7 @@
 import { computed, onMounted, watch } from 'vue'
 import { RouterView } from 'vue-router'
 import CyberNav from '../components/common/CyberNav.vue'
+import CosmicCanvas from '../components/common/CosmicCanvas.vue'
 import { useGithubData } from '../composables/useGithubData'
 import { navLinks } from '../data/content'
 
@@ -54,6 +55,7 @@ watch(
     <div class="ambient ambient-b" />
     <div class="grid-overlay" />
     <div class="circuit-overlay" />
+    <CosmicCanvas />
 
     <div class="dot-layer" aria-hidden="true">
       <span

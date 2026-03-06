@@ -41,7 +41,6 @@ onBeforeUnmount(() => {
 
 <template>
   <GlassPanel class="signal-card">
-    <div class="scanline" />
     <p class="panel-title">{{ title }}</p>
     <p class="now-time">{{ now }}</p>
     <p class="panel-sub">{{ subtitle }}</p>
@@ -66,14 +65,6 @@ onBeforeUnmount(() => {
   background: var(--signal-bg);
 }
 
-.scanline {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 72px;
-  background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.16), transparent);
-  animation: sweep 5s linear infinite;
-}
 
 .panel-title {
   margin: 0;
