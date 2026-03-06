@@ -63,6 +63,12 @@ export type ProfileLink = {
   note: string
 }
 
+export type SkillTag = {
+  name: string
+  icon: string
+  color: string
+}
+
 export type GitHubOrg = {
   login: string
   avatarUrl: string
@@ -128,22 +134,22 @@ export const aboutBullets: string[] = [
   '偏好前端动效、组件封装和工程化实践。',
 ]
 
-export const skillTags: string[] = [
-  'Vue.js',
-  'React',
-  'Vite',
-  'TypeScript',
-  'JavaScript',
-  'Go',
-  'HTML5',
-  'CSS3',
-  'SCSS',
-  'Less',
-  'Electron',
-  'Wails',
-  'Node.js',
-  'Express',
-  'Tauri',
+export const skillTags: SkillTag[] = [
+  { name: 'Vue.js', icon: 'tabler:brand-vue', color: '#42b883' },
+  { name: 'React', icon: 'tabler:brand-react', color: '#61dafb' },
+  { name: 'Vite', icon: 'tabler:brand-vite', color: '#646cff' },
+  { name: 'TypeScript', icon: 'tabler:brand-typescript', color: '#3178c6' },
+  { name: 'JavaScript', icon: 'tabler:brand-javascript', color: '#f7df1e' },
+  { name: 'Go', icon: 'tabler:brand-golang', color: '#00add8' },
+  { name: 'HTML5', icon: 'tabler:brand-html5', color: '#e34f26' },
+  { name: 'CSS3', icon: 'tabler:brand-css3', color: '#1572b6' },
+  { name: 'SCSS', icon: 'tabler:brand-sass', color: '#cc6699' },
+  { name: 'Less', icon: 'tabler:file-type-css', color: '#1d365d' },
+  { name: 'Electron', icon: 'tabler:atom-2', color: '#47848f' },
+  { name: 'Wails', icon: 'tabler:sailboat-2', color: '#f05f55' },
+  { name: 'Node.js', icon: 'tabler:brand-nodejs', color: '#339933' },
+  { name: 'Express', icon: 'tabler:route-2', color: '#8892a0' },
+  { name: 'Tauri', icon: 'tabler:flame', color: '#24c8db' },
 ]
 
 export const fallbackProfile: GitHubProfile = {

@@ -5,6 +5,7 @@ import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import CyberButton from '../components/common/CyberButton.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
 import SignalPanel from '../components/common/SignalPanel.vue'
+import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
 import { profileLinks, skillTags } from '../data/content'
 
@@ -87,9 +88,7 @@ onMounted(() => {
     <section class="skill-summary-grid">
       <article class="glass-panel reveal" style="--delay: 520ms">
         <h3>Stack Tags</h3>
-        <div class="skill-tags">
-          <span v-for="skill in featuredSkills" :key="skill">{{ skill }}</span>
-        </div>
+        <SkillTagList :skills="featuredSkills" />
       </article>
 
       <article class="glass-panel reveal" style="--delay: 620ms">

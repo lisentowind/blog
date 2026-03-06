@@ -3,6 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import ContributionHeatmapCard from '../components/cards/ContributionHeatmapCard.vue'
 import OrganizationCard from '../components/cards/OrganizationCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
+import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
 import { aboutBullets, profileLinks, skillTags } from '../data/content'
 
@@ -56,9 +57,7 @@ onMounted(() => {
 
       <article class="glass-panel reveal" style="--delay: 220ms">
         <h3>常用技术</h3>
-        <div class="skill-tags">
-          <span v-for="skill in skillTags" :key="skill">{{ skill }}</span>
-        </div>
+        <SkillTagList :skills="skillTags" />
       </article>
 
       <article class="glass-panel reveal" style="--delay: 320ms">

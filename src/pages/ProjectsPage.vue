@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import ExternalLinkCard from '../components/cards/ExternalLinkCard.vue'
 import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
+import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
 import { profileLinks, skillTags } from '../data/content'
 
@@ -42,9 +43,7 @@ onMounted(() => {
 
     <section class="tech-wall glass-panel reveal" style="--delay: 620ms">
       <h3>常用技术栈</h3>
-      <div class="skill-tags">
-        <span v-for="tag in highlightedSkills" :key="tag">{{ tag }}</span>
-      </div>
+      <SkillTagList :skills="highlightedSkills" />
     </section>
 
     <SectionTitle eyebrow="Links" title="固定链接" description="主页、个人仓库与项目演示入口。" />
