@@ -5,7 +5,7 @@ import OrganizationCard from '../components/cards/OrganizationCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
 import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
-import { aboutBullets, profileLinks, skillTags } from '../data/content'
+import { aboutBullets, skillTags } from '../data/content'
 
 const { profile, languageSummary, organizations, contributionHeatmaps, error, loadGithubData } = useGithubData()
 
@@ -37,10 +37,10 @@ onMounted(() => {
 
 <template>
   <div class="page about-page">
-    <SectionTitle eyebrow="About" title="关于我" description="信息在浏览者访问时从 GitHub API 实时获取。" />
+    <SectionTitle eyebrow="About" title="关于我" description="个人资料、组织信息与贡献热力图集中在这个分类页。" />
 
     <section class="about-grid">
-      <article class="glass-panel reveal" style="--delay: 120ms">
+      <article class="glass-panel interactive profile-card reveal" style="--delay: 120ms">
         <div class="profile-head">
           <img :src="profile.avatarUrl" :alt="profile.login" />
           <div>
@@ -55,12 +55,12 @@ onMounted(() => {
         </ul>
       </article>
 
-      <article class="glass-panel reveal" style="--delay: 220ms">
+      <article class="glass-panel interactive skills-card reveal" style="--delay: 220ms">
         <h3>常用技术</h3>
         <SkillTagList :skills="skillTags" />
       </article>
 
-      <article class="glass-panel reveal" style="--delay: 320ms">
+      <article class="glass-panel interactive snapshot-card reveal" style="--delay: 320ms">
         <h3>GitHub 快照</h3>
         <ul class="simple-stats">
           <li>
@@ -136,15 +136,155 @@ onMounted(() => {
       <h3>GitHub API Notice</h3>
       <p>{{ error }}</p>
     </section>
-
-    <section class="about-links glass-panel reveal" style="--delay: 420ms">
-      <h3>固定链接</h3>
-      <div class="inline-links">
-        <a v-for="link in profileLinks" :key="link.href" :href="link.href" target="_blank" rel="noreferrer">
-          <span>{{ link.label }}</span>
-          <small>{{ link.note }}</small>
-        </a>
-      </div>
-    </section>
   </div>
 </template>
+
+<style scoped>
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.profile-card,
+.skills-card,
+.snapshot-card {
+  padding: 20px;
+}
+
+.profile-card h3,
+.skills-card h3,
+.snapshot-card h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.profile-head img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.42);
+}
+
+.profile-head h3 {
+  margin: 0;
+}
+
+.profile-head p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.about-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.simple-stats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.simple-stats li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 12px;
+  background: var(--tile-bg);
+}
+
+.simple-stats strong {
+  font-size: 18px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.simple-stats span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.snapshot-date {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.org-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.heatmap-switcher {
+  padding: 14px 16px;
+}
+
+.year-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.year-picker span {
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+.year-picker select {
+  padding: 7px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--tile-bg);
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.year-picker select:focus {
+  outline: 2px solid var(--line-strong);
+  outline-offset: 1px;
+}
+
+.heatmap-year-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 1080px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .org-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .profile-card,
+  .skills-card,
+  .snapshot-card,
+  .heatmap-switcher {
+    padding: 16px;
+  }
+
+  .org-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

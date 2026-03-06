@@ -71,3 +71,87 @@ const formatTitle = (cell: HeatCell) => {
     <p class="heatmap-meta">每个方块代表一天，颜色越深表示提交越多。</p>
   </GlassPanel>
 </template>
+
+<style scoped>
+.heatmap-card {
+  padding: 20px;
+}
+
+.heatmap-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.heatmap-head h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.heatmap-head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.heatmap-scroll {
+  margin-top: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
+.heatmap-grid {
+  --weeks: 53;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 11px);
+  grid-template-columns: repeat(var(--weeks), 11px);
+  gap: 3px;
+  min-width: max-content;
+}
+
+.heat-cell {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--heat-0);
+}
+
+.heat-cell.level-0 {
+  background: var(--heat-0);
+}
+
+.heat-cell.level-1 {
+  background: var(--heat-1);
+}
+
+.heat-cell.level-2 {
+  background: var(--heat-2);
+}
+
+.heat-cell.level-3 {
+  background: var(--heat-3);
+}
+
+.heat-cell.level-4 {
+  background: var(--heat-4);
+}
+
+.heat-cell.is-empty {
+  background: transparent;
+}
+
+.heatmap-meta {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .heatmap-card {
+    padding: 16px;
+  }
+}
+</style>

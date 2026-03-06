@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import ExternalLinkCard from '../components/cards/ExternalLinkCard.vue'
 import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
-import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
-import { profileLinks, skillTags } from '../data/content'
 
 const { pinnedRepos, loading, error, loadGithubData } = useGithubData()
-const highlightedSkills = skillTags.slice(0, 12)
 
 onMounted(() => {
   void loadGithubData()
@@ -19,8 +15,8 @@ onMounted(() => {
   <div class="page projects-page">
     <SectionTitle
       eyebrow="GitHub Repositories"
-      title="固定仓库与链接"
-      description="仓库卡片信息由 GitHub API 动态返回。"
+      title="固定仓库"
+      description="该分类页仅保留仓库列表，避免和其它页面重复展示。"
     />
 
     <section v-if="error" class="glass-panel status-card reveal" style="--delay: 120ms">
@@ -39,22 +35,28 @@ onMounted(() => {
       <article v-if="loading && pinnedRepos.length === 0" class="glass-panel status-card reveal" style="--delay: 120ms">
         <h3>Loading repositories...</h3>
       </article>
-    </section>
-
-    <section class="tech-wall glass-panel reveal" style="--delay: 620ms">
-      <h3>常用技术栈</h3>
-      <SkillTagList :skills="highlightedSkills" />
-    </section>
-
-    <SectionTitle eyebrow="Links" title="固定链接" description="主页、个人仓库与项目演示入口。" />
-    <section class="card-grid links-grid">
-      <ExternalLinkCard
-        v-for="(link, index) in profileLinks"
-        :key="link.href"
-        :link="link"
-        class="reveal"
-        :style="{ '--delay': `${760 + index * 80}ms` }"
-      />
+      <article v-else-if="!loading && pinnedRepos.length === 0" class="glass-panel status-card reveal" style="--delay: 120ms">
+        <h3>No repositories yet</h3>
+        <p>当前没有可展示的固定仓库。</p>
+      </article>
     </section>
   </div>
 </template>
+
+<style scoped>
+.repo-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1080px) {
+  .repo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .repo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

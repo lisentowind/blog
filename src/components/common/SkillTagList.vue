@@ -59,3 +59,79 @@ const resolveIcon = (iconName: string) => iconMap[iconName as keyof typeof iconM
     </span>
   </div>
 </template>
+
+<style scoped>
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  --skill-color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--tag-border);
+  background: var(--tag-bg);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.skill-tag:hover {
+  transform: translateY(-1px);
+  border-color: var(--skill-color);
+  background: color-mix(in srgb, var(--tag-bg) 72%, var(--skill-color));
+  box-shadow: 0 8px 18px rgba(var(--accent-rgb), 0.16);
+}
+
+.skill-icon-wrap {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.skill-icon {
+  position: absolute;
+  inset: 0;
+  width: 16px;
+  height: 16px;
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.skill-icon-line {
+  color: var(--tag-text);
+  opacity: 0.95;
+}
+
+.skill-icon-color {
+  color: var(--skill-color);
+  opacity: 0;
+  transform: scale(0.82);
+}
+
+.skill-tag:hover .skill-icon-line {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.skill-tag:hover .skill-icon-color {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.skill-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tag-text);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.skill-tag:hover .skill-name {
+  color: var(--text);
+}
+</style>

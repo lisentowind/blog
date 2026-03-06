@@ -54,3 +54,95 @@ onBeforeUnmount(() => {
     <div class="ring" />
   </GlassPanel>
 </template>
+
+<style scoped>
+.signal-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--signal-bg);
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.16), transparent);
+  animation: sweep 5s linear infinite;
+}
+
+.panel-title {
+  margin: 0;
+  color: var(--accent-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.now-time {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.panel-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.signal-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.signal-list div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  background: var(--tile-bg);
+}
+
+.signal-list span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.signal-list b {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+.signal-list b.good {
+  color: var(--accent-2);
+}
+
+.signal-list b.warn {
+  color: var(--warn);
+}
+
+.ring {
+  position: absolute;
+  right: -88px;
+  bottom: -96px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  animation: spin 18s linear infinite;
+}
+
+@media (max-width: 760px) {
+  .signal-card {
+    padding: 16px;
+  }
+}
+</style>

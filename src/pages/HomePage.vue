@@ -1,19 +1,23 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import ExternalLinkCard from '../components/cards/ExternalLinkCard.vue'
 import PinnedRepoCard from '../components/cards/PinnedRepoCard.vue'
 import CyberButton from '../components/common/CyberButton.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
 import SignalPanel from '../components/common/SignalPanel.vue'
-import SkillTagList from '../components/common/SkillTagList.vue'
 import { useGithubData } from '../composables/useGithubData'
-import { profileLinks, skillTags } from '../data/content'
 
-const { profile, pinnedRepos, languageSummary, loading, error, loadGithubData } = useGithubData()
+type OverviewCard = {
+  key: string
+  title: string
+  meta: string
+  description: string
+  action: string
+  to: string
+}
+
+const { profile, pinnedRepos, organizations, contributionHeatmaps, loading, error, loadGithubData } = useGithubData()
 
 const featuredRepos = computed(() => pinnedRepos.value.slice(0, 3))
-const featuredLinks = profileLinks.slice(0, 2)
-const featuredSkills = skillTags.slice(0, 10)
 
 const heroStats = computed(() => [
   { value: String(profile.value.publicRepos), label: 'Public Repos' },
@@ -27,6 +31,25 @@ const signalItems = computed(() => [
   { label: 'Following', value: String(profile.value.following) },
 ])
 
+const overviewCards = computed<OverviewCard[]>(() => [
+  {
+    key: 'projects',
+    title: 'Projects',
+    meta: `${pinnedRepos.value.length} 个固定仓库`,
+    description: '仓库列表集中到 Projects 分类页，只保留与仓库相关的内容。',
+    action: '查看仓库',
+    to: '/projects',
+  },
+  {
+    key: 'about',
+    title: 'About',
+    meta: `${organizations.value.length} 个组织 · ${contributionHeatmaps.value.length} 年热力图`,
+    description: '个人资料、技术标签、组织信息和贡献热力图统一收敛到 About 页面。',
+    action: '查看资料',
+    to: '/about',
+  },
+])
+
 onMounted(() => {
   void loadGithubData()
 })
@@ -35,7 +58,7 @@ onMounted(() => {
 <template>
   <div class="page home-page">
     <section class="hero reveal" style="--delay: 120ms">
-      <div class="hero-copy glass-panel">
+      <div class="hero-copy glass-panel interactive">
         <p class="kicker">GitHub Profile / {{ profile.location }}</p>
         <h1>
           {{ profile.name }}
@@ -44,7 +67,7 @@ onMounted(() => {
         <p class="summary">慢一点也没关系，重要的是你始终在向前走。</p>
         <div class="hero-actions">
           <CyberButton :href="profile.profileUrl">Open GitHub</CyberButton>
-          <CyberButton variant="outline" to="/projects">Open Repositories</CyberButton>
+          <CyberButton variant="outline" to="/projects">Open Projects</CyberButton>
         </div>
         <ul class="stats">
           <li v-for="stat in heroStats" :key="stat.label">
@@ -81,36 +104,164 @@ onMounted(() => {
     </section>
 
     <SectionTitle
-      eyebrow="Common Tech"
-      title="常用技术"
-      description="技能标签来自个人介绍，语言分布来自实时仓库统计。"
+      eyebrow="Navigate"
+      title="分类浏览"
+      description="首页只保留概览，详情收敛到对应分类页，减少重复信息。"
     />
-    <section class="skill-summary-grid">
-      <article class="glass-panel reveal" style="--delay: 520ms">
-        <h3>Stack Tags</h3>
-        <SkillTagList :skills="featuredSkills" />
+    <section class="overview-grid">
+      <article
+        v-for="(card, index) in overviewCards"
+        :key="card.key"
+        class="glass-panel interactive overview-card reveal"
+        :style="{ '--delay': `${520 + index * 100}ms` }"
+      >
+        <div class="overview-head">
+          <p>{{ card.meta }}</p>
+          <h3>{{ card.title }}</h3>
+        </div>
+        <p class="overview-desc">{{ card.description }}</p>
+        <div class="overview-action">
+          <CyberButton variant="outline" :to="card.to">{{ card.action }}</CyberButton>
+        </div>
       </article>
-
-      <article class="glass-panel reveal" style="--delay: 620ms">
-        <h3>Language Snapshot</h3>
-        <ul class="simple-stats">
-          <li v-for="item in languageSummary" :key="item.label">
-            <strong>{{ item.value }}</strong>
-            <span>{{ item.label }}</span>
-          </li>
-        </ul>
-      </article>
-    </section>
-
-    <SectionTitle eyebrow="Profile Links" title="固定链接" description="个人主页和常用项目入口。" />
-    <section class="card-grid links-grid">
-      <ExternalLinkCard
-        v-for="(link, index) in featuredLinks"
-        :key="link.href"
-        :link="link"
-        class="reveal"
-        :style="{ '--delay': `${740 + index * 90}ms` }"
-      />
     </section>
   </div>
 </template>
+
+<style scoped>
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.hero-copy {
+  padding: clamp(22px, 4vw, 38px);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--accent-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 16px 0 0;
+  font-size: clamp(32px, 6vw, 62px);
+  line-height: 1.05;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1 span {
+  display: block;
+  color: var(--accent);
+  text-shadow: var(--hero-title-glow);
+}
+
+.summary {
+  margin: 16px 0 0;
+  max-width: 58ch;
+  color: var(--muted);
+}
+
+.hero-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stats {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stats li {
+  padding: 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.16);
+  border-radius: 12px;
+  background: var(--tile-bg);
+}
+
+.stats strong {
+  display: block;
+  font-size: 24px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.stats span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.repo-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.overview-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.overview-head p {
+  margin: 0;
+  color: var(--accent);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.overview-head h3 {
+  margin: 8px 0 0;
+  font-size: 22px;
+}
+
+.overview-desc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.overview-action {
+  margin-top: auto;
+}
+
+@media (max-width: 1080px) {
+  .hero,
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .repo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-copy,
+  .overview-card {
+    padding: 16px;
+  }
+
+  .stats,
+  .repo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
