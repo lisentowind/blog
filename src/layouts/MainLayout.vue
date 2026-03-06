@@ -99,7 +99,7 @@ watch(
 }
 
 .ambient {
-  position: absolute;
+  position: fixed;
   border-radius: 50%;
   filter: blur(58px);
   opacity: 0.45;
