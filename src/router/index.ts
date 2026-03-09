@@ -9,6 +9,21 @@ const router = createRouter({
       component: () => import('../pages/HomePage.vue'),
     },
     {
+      path: '/blog',
+      name: 'blog',
+      component: () => import('../pages/BlogPage.vue'),
+    },
+    {
+      path: '/blog/:slug',
+      name: 'blog-detail',
+      component: () => import('../pages/BlogDetailPage.vue'),
+    },
+    {
+      path: '/lab',
+      name: 'lab',
+      component: () => import('../pages/LabPage.vue'),
+    },
+    {
       path: '/projects',
       name: 'projects',
       component: () => import('../pages/ProjectsPage.vue'),
@@ -17,14 +32,6 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../pages/AboutPage.vue'),
-    },
-    {
-      path: '/blog',
-      redirect: '/',
-    },
-    {
-      path: '/lab',
-      redirect: '/',
     },
     {
       path: '/:pathMatch(.*)*',

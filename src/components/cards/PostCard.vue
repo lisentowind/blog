@@ -14,10 +14,11 @@ defineProps<{
       <time>{{ post.date }}</time>
     </div>
     <h3>{{ post.title }}</h3>
+    <p class="headline">{{ post.headline }}</p>
     <p>{{ post.summary }}</p>
     <div class="post-foot">
       <small>{{ post.read }}</small>
-      <a href="#">Read →</a>
+      <RouterLink :to="`/blog/${post.slug}`">Read →</RouterLink>
     </div>
   </GlassPanel>
 </template>
@@ -44,6 +45,11 @@ defineProps<{
   margin: 12px 0 10px;
   line-height: 1.35;
   font-size: 20px;
+}
+
+.headline {
+  margin: 0 0 10px;
+  color: var(--text);
 }
 
 .post-card p {

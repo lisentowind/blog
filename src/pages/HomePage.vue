@@ -5,6 +5,7 @@ import CyberButton from '../components/common/CyberButton.vue'
 import SectionTitle from '../components/common/SectionTitle.vue'
 import SignalPanel from '../components/common/SignalPanel.vue'
 import { useGithubData } from '../composables/useGithubData'
+import { blogPosts, labEntries } from '../data/content'
 
 type OverviewCard = {
   key: string
@@ -32,6 +33,22 @@ const signalItems = computed(() => [
 ])
 
 const overviewCards = computed<OverviewCard[]>(() => [
+  {
+    key: 'blog',
+    title: 'Blog',
+    meta: `${blogPosts.length} 篇文章`,
+    description: '把项目复盘、组件封装和工程化思考沉淀成更完整的技术内容。',
+    action: '查看文章',
+    to: '/blog',
+  },
+  {
+    key: 'lab',
+    title: 'Lab',
+    meta: `${labEntries.length} 个实验方向`,
+    description: '记录正在尝试的动效、内容系统和作品集叙事方案。',
+    action: '打开实验室',
+    to: '/lab',
+  },
   {
     key: 'projects',
     title: 'Projects',
@@ -67,7 +84,7 @@ onMounted(() => {
         <p class="summary">慢一点也没关系，重要的是你始终在向前走。</p>
         <div class="hero-actions">
           <CyberButton :href="profile.profileUrl">Open GitHub</CyberButton>
-          <CyberButton variant="outline" to="/projects">Open Projects</CyberButton>
+          <CyberButton variant="outline" to="/blog">Open Blog</CyberButton>
         </div>
         <ul class="stats">
           <li v-for="stat in heroStats" :key="stat.label">
@@ -106,7 +123,7 @@ onMounted(() => {
     <SectionTitle
       eyebrow="Navigate"
       title="分类浏览"
-      description="首页只保留概览，详情收敛到对应分类页，减少重复信息。"
+      description="现在首页保留概览，内容沉淀到 Blog、Lab、Projects、About 四个分区。"
     />
     <section class="overview-grid">
       <article
@@ -259,8 +276,11 @@ h1 span {
     padding: 16px;
   }
 
-  .stats,
   .repo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
     grid-template-columns: 1fr;
   }
 }

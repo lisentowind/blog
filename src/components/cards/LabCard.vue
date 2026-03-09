@@ -15,6 +15,18 @@ defineProps<{
     </div>
     <h4>{{ entry.headline }}</h4>
     <p>{{ entry.details }}</p>
+    <p class="focus">{{ entry.focus }}</p>
+    <ul class="stack-list">
+      <li v-for="item in entry.stack" :key="item">{{ item }}</li>
+    </ul>
+    <div v-if="entry.links?.length" class="lab-links">
+      <RouterLink v-for="link in entry.links.filter((item) => item.to)" :key="`${entry.name}-${link.label}`" :to="link.to!">
+        {{ link.label }}
+      </RouterLink>
+      <a v-for="link in entry.links.filter((item) => item.href)" :key="`${entry.name}-${link.label}`" :href="link.href">
+        {{ link.label }}
+      </a>
+    </div>
   </GlassPanel>
 </template>
 
@@ -53,6 +65,42 @@ defineProps<{
 .lab-card p {
   margin: 0;
   color: var(--muted);
+}
+
+.focus {
+  margin-top: 14px;
+  color: var(--text) !important;
+}
+
+.stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.stack-list li {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: var(--tag-text);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.lab-links {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lab-links a {
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 @media (max-width: 760px) {
