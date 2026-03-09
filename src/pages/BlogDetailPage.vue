@@ -7,8 +7,12 @@ import { blogPosts } from '../data/content'
 
 const route = useRoute()
 
-const post = computed(() => blogPosts.find((item) => item.slug === route.params.slug) ?? null)
-const relatedPosts = computed(() => blogPosts.filter((item) => item.slug !== route.params.slug).slice(0, 2))
+const currentIndex = computed(() => blogPosts.findIndex((item) => item.slug === route.params.slug))
+const post = computed(() => (currentIndex.value >= 0 ? blogPosts[currentIndex.value] : null))
+const previousPost = computed(() => (currentIndex.value > 0 ? blogPosts[currentIndex.value - 1] : null))
+const nextPost = computed(() =>
+  currentIndex.value >= 0 && currentIndex.value < blogPosts.length - 1 ? blogPosts[currentIndex.value + 1] : null,
+)
 </script>
 
 <template>
@@ -39,21 +43,48 @@ const relatedPosts = computed(() => blogPosts.filter((item) => item.slug !== rou
         <CyberButton to="/lab">去看实验室</CyberButton>
       </section>
 
-      <section class="related-posts">
-        <SectionTitle eyebrow="More" title="继续阅读" description="再看两篇相关内容，保持这个节奏继续写下去。" />
-        <div class="card-grid related-grid">
-          <RouterLink
-            v-for="(item, index) in relatedPosts"
-            :key="item.slug"
-            :to="`/blog/${item.slug}`"
-            class="glass-panel interactive related-card reveal"
-            :style="{ '--delay': `${220 + index * 80}ms` }"
+      <section class="article-nav">
+        <SectionTitle eyebrow="Navigate" title="继续阅读" description="现在这里会明确显示上一篇和下一篇。" />
+        <div class="card-grid nav-grid">
+          <component
+            :is="previousPost ? 'RouterLink' : 'article'"
+            :to="previousPost ? `/blog/${previousPost.slug}` : undefined"
+            class="glass-panel"
+            :class="['nav-card', { interactive: !!previousPost, empty: !previousPost, reveal: true }]"
+            style="--delay: 220ms"
           >
-            <p class="meta">{{ item.tag }} · {{ item.date }}</p>
-            <h3>{{ item.title }}</h3>
-            <p class="summary">{{ item.summary }}</p>
-            <span>Read →</span>
-          </RouterLink>
+            <p class="nav-label">上一篇</p>
+            <template v-if="previousPost">
+              <h3>{{ previousPost.title }}</h3>
+              <p class="nav-meta">{{ previousPost.tag }} · {{ previousPost.date }}</p>
+              <span>← Read</span>
+            </template>
+            <template v-else>
+              <h3>已经是最新一篇</h3>
+              <p class="nav-meta">当前文章前面没有更新的内容。</p>
+              <span>—</span>
+            </template>
+          </component>
+
+          <component
+            :is="nextPost ? 'RouterLink' : 'article'"
+            :to="nextPost ? `/blog/${nextPost.slug}` : undefined"
+            class="glass-panel"
+            :class="['nav-card', { interactive: !!nextPost, empty: !nextPost, reveal: true }]"
+            style="--delay: 300ms"
+          >
+            <p class="nav-label">下一篇</p>
+            <template v-if="nextPost">
+              <h3>{{ nextPost.title }}</h3>
+              <p class="nav-meta">{{ nextPost.tag }} · {{ nextPost.date }}</p>
+              <span>Read →</span>
+            </template>
+            <template v-else>
+              <h3>已经是最后一篇</h3>
+              <p class="nav-meta">当前文章后面没有更早的内容。</p>
+              <span>—</span>
+            </template>
+          </component>
         </div>
       </section>
     </template>
@@ -132,56 +163,65 @@ const relatedPosts = computed(() => blogPosts.filter((item) => item.slug !== rou
   flex-wrap: wrap;
 }
 
-.related-posts {
+.article-nav {
   display: grid;
   gap: 16px;
 }
 
-.related-grid {
+.nav-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
 }
 
-.related-card {
+.nav-card {
+  min-height: 190px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: 18px 20px;
 }
 
-.related-card p,
-.related-card span {
+.nav-card.empty {
+  opacity: 0.72;
+}
+
+.nav-label,
+.nav-meta,
+.nav-card span {
   margin: 0;
-  color: var(--muted);
   font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
 }
 
-.related-card .summary {
-  color: var(--muted);
-  font-size: 14px;
-  font-family: inherit;
-  line-height: 1.7;
+.nav-label {
+  color: var(--accent-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.related-card h3 {
+.nav-card h3 {
   margin: 0;
   color: var(--text);
+  line-height: 1.5;
 }
 
-.related-card span {
+.nav-meta {
+  color: var(--muted);
+}
+
+.nav-card span {
   margin-top: auto;
   color: var(--accent);
 }
 
 @media (max-width: 760px) {
   .article-actions,
-  .related-card {
+  .nav-card {
     padding: 16px;
   }
 
-  .related-grid {
+  .nav-grid {
     grid-template-columns: 1fr;
   }
 }
