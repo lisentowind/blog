@@ -74,6 +74,7 @@ const formatTitle = (cell: HeatCell) => {
 
 <style scoped>
 .heatmap-card {
+  min-width: 0;
   padding: 20px;
 }
 
@@ -82,6 +83,7 @@ const formatTitle = (cell: HeatCell) => {
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .heatmap-head h3 {
@@ -93,10 +95,12 @@ const formatTitle = (cell: HeatCell) => {
   color: var(--muted);
   font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
+  overflow-wrap: anywhere;
 }
 
 .heatmap-scroll {
   margin-top: 12px;
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 2px;
@@ -104,17 +108,19 @@ const formatTitle = (cell: HeatCell) => {
 
 .heatmap-grid {
   --weeks: 53;
+  --cell-size: 11px;
+  --cell-gap: 3px;
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(7, 11px);
-  grid-template-columns: repeat(var(--weeks), 11px);
-  gap: 3px;
+  grid-template-rows: repeat(7, var(--cell-size));
+  grid-template-columns: repeat(var(--weeks), var(--cell-size));
+  gap: var(--cell-gap);
   min-width: max-content;
 }
 
 .heat-cell {
-  width: 11px;
-  height: 11px;
+  width: var(--cell-size);
+  height: var(--cell-size);
   border-radius: 2px;
   background: var(--heat-0);
 }
@@ -152,6 +158,18 @@ const formatTitle = (cell: HeatCell) => {
 @media (max-width: 760px) {
   .heatmap-card {
     padding: 16px;
+  }
+
+  .heatmap-grid {
+    --cell-size: 10px;
+    --cell-gap: 2px;
+  }
+}
+
+@media (max-width: 520px) {
+  .heatmap-grid {
+    --cell-size: 8px;
+    --cell-gap: 2px;
   }
 }
 </style>

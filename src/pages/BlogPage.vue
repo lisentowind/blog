@@ -1095,6 +1095,20 @@ const resetFilters = () => {
     gap: 20px;
   }
 
+  .featured-copy {
+    gap: 12px;
+  }
+
+  .priority-badge {
+    position: static;
+    justify-self: start;
+    margin-bottom: 2px;
+  }
+
+  .featured-body {
+    padding-top: 0;
+  }
+
   .signal-deck,
   .featured-transmission,
   .frequency-router,

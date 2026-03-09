@@ -146,9 +146,14 @@ onMounted(() => {
   gap: 16px;
 }
 
+.about-grid > * {
+  min-width: 0;
+}
+
 .profile-card,
 .skills-card,
 .snapshot-card {
+  min-width: 0;
   padding: 20px;
 }
 
@@ -164,6 +169,10 @@ onMounted(() => {
   align-items: center;
   gap: 14px;
   margin-bottom: 14px;
+}
+
+.profile-head > div {
+  min-width: 0;
 }
 
 .profile-head img {
@@ -190,6 +199,11 @@ onMounted(() => {
   line-height: 1.7;
 }
 
+.about-list li {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .simple-stats {
   margin: 0;
   padding: 0;
@@ -207,6 +221,10 @@ onMounted(() => {
   border: 1px solid rgba(var(--accent-rgb), 0.2);
   border-radius: 12px;
   background: var(--tile-bg);
+}
+
+.simple-stats li > * {
+  min-width: 0;
 }
 
 .simple-stats strong {
@@ -283,8 +301,40 @@ onMounted(() => {
     padding: 16px;
   }
 
+  .profile-head {
+    align-items: flex-start;
+  }
+
+  .simple-stats li {
+    align-items: flex-start;
+  }
+
+  .year-picker {
+    flex-wrap: wrap;
+  }
+
   .org-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-head {
+    flex-direction: column;
+  }
+
+  .profile-head img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .simple-stats li {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .about-list {
+    padding-left: 16px;
   }
 }
 </style>

@@ -150,6 +150,7 @@ html {
 
 body {
   overflow: visible;
+  overflow-x: clip;
 }
 
 a {
@@ -172,6 +173,7 @@ a {
 .page {
   display: grid;
   gap: 18px;
+  min-width: 0;
 }
 
 .glass-panel {
@@ -308,9 +310,15 @@ a {
   }
 }
 
+@media (max-width: 900px) {
+  .page-main {
+    margin-top: 104px;
+  }
+}
+
 @media (max-width: 760px) {
   .page-main {
-    margin-top: 132px;
+    margin-top: 96px;
   }
 
   .glass-panel {
@@ -319,5 +327,9 @@ a {
 
   .status-card {
     padding: 16px;
+  }
+
+  .page {
+    gap: 14px;
   }
 }

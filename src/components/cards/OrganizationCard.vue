@@ -23,6 +23,7 @@ defineProps<{
 
 <style scoped>
 .org-card {
+  min-width: 0;
   padding: 20px;
 }
 
@@ -30,6 +31,11 @@ defineProps<{
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+}
+
+.org-head > div {
+  min-width: 0;
 }
 
 .org-head img {
@@ -44,6 +50,10 @@ defineProps<{
   font-size: 18px;
 }
 
+.org-head h3 a {
+  overflow-wrap: anywhere;
+}
+
 .org-head h3 a:hover {
   color: var(--accent);
 }
@@ -52,11 +62,23 @@ defineProps<{
   margin: 4px 0 0;
   color: var(--muted);
   font-size: 13px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 @media (max-width: 760px) {
   .org-card {
     padding: 16px;
+  }
+
+  .org-head {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .org-head {
+    flex-direction: column;
   }
 }
 </style>

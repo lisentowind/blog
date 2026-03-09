@@ -62,16 +62,22 @@ const resolveIcon = (iconName: string) => iconMap[iconName as keyof typeof iconM
 
 <style scoped>
 .skill-tags {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, max-content));
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .skill-tag {
   --skill-color: var(--accent);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--tag-border);
@@ -128,10 +134,22 @@ const resolveIcon = (iconName: string) => iconMap[iconName as keyof typeof iconM
   font-weight: 600;
   color: var(--tag-text);
   line-height: 1;
+  overflow-wrap: anywhere;
   transition: color 0.2s ease;
 }
 
 .skill-tag:hover .skill-name {
   color: var(--text);
+}
+
+@media (max-width: 520px) {
+  .skill-tags {
+    grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+    gap: 10px;
+  }
+
+  .skill-tag {
+    padding: 7px 12px;
+  }
 }
 </style>

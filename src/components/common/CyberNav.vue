@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import type { NavLink } from '../../data/content'
 import ThemeToggle from './ThemeToggle.vue'
 
@@ -10,31 +11,63 @@ defineProps<{
 }>()
 
 const floating = ref(false)
+const menuOpen = ref(false)
+const route = useRoute()
 
 const onScroll = () => {
   floating.value = window.scrollY > 24
 }
 
+const onResize = () => {
+  if (window.innerWidth > 900) {
+    menuOpen.value = false
+  }
+}
+
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value
+}
+
 onMounted(() => {
   onScroll()
+  onResize()
   window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onResize, { passive: true })
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onResize)
 })
+
+watch(
+  () => route.fullPath,
+  () => {
+    menuOpen.value = false
+  },
+)
 </script>
 
 <template>
   <div class="nav-wrap">
-    <header class="cyber-nav reveal" :class="{ floating }" style="--delay: 0ms">
+    <header class="cyber-nav reveal" :class="{ floating, 'menu-open': menuOpen }" style="--delay: 0ms">
       <RouterLink class="brand" to="/">
         <img v-if="brandAvatar" class="brand-avatar" :src="brandAvatar" :alt="brandName" />
         <span v-else class="brand-mark" />
         <span class="brand-name">{{ brandName }}</span>
       </RouterLink>
 
-      <nav class="nav-links">
+      <button
+        class="menu-toggle"
+        type="button"
+        :aria-expanded="menuOpen"
+        aria-controls="site-nav site-actions"
+        @click="toggleMenu"
+      >
+        <span>{{ menuOpen ? 'Close' : 'Menu' }}</span>
+      </button>
+
+      <nav id="site-nav" class="nav-links" :class="{ open: menuOpen }">
         <RouterLink
           v-for="link in links"
           :key="link.to"
@@ -46,7 +79,7 @@ onBeforeUnmount(() => {
         </RouterLink>
       </nav>
 
-      <div class="nav-actions">
+      <div id="site-actions" class="nav-actions" :class="{ open: menuOpen }">
         <ThemeToggle />
         <RouterLink class="subscribe" to="/about">Contact</RouterLink>
       </div>
@@ -96,6 +129,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .brand-mark {
@@ -119,6 +153,30 @@ onBeforeUnmount(() => {
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.04em;
   font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(var(--accent-rgb), 0.42);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+  transform: translateY(var(--control-hover-translate-y));
+  background: var(--control-hover-bg);
 }
 
 .nav-links {
@@ -163,29 +221,96 @@ onBeforeUnmount(() => {
   background: var(--control-hover-bg);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .nav-wrap {
     padding: 8px 10px 0;
   }
 
   .cyber-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
     padding: 12px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-name {
+    font-size: 13px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
   }
 
   .nav-links,
   .nav-actions {
+    display: none;
     width: 100%;
   }
 
-  .nav-links {
+  .nav-links.open,
+  .nav-actions.open {
+    display: grid;
+  }
+
+  .nav-links.open {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-top: 4px;
+  }
+
+  .nav-actions.open {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
 
-  .nav-actions {
+  .nav-link,
+  .subscribe,
+  :deep(.theme-toggle) {
+    width: 100%;
+    min-height: 42px;
     justify-content: center;
+    text-align: center;
+  }
+
+  .subscribe,
+  :deep(.theme-toggle) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .cyber-nav {
+    border-radius: 14px;
+  }
+
+  .nav-links.open,
+  .nav-actions.open {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-name {
+    max-width: 12ch;
+    font-size: 12px;
+  }
+
+  .menu-toggle {
+    padding-inline: 12px;
   }
 }
 </style>
