@@ -106,6 +106,8 @@ const nextPost = computed(() =>
 <style scoped>
 .blog-detail-page {
   --article-code-bg: rgba(0, 0, 0, 0.28);
+
+  min-width: 0;
 }
 
 :global([data-theme='light']) .blog-detail-page {
@@ -113,6 +115,7 @@ const nextPost = computed(() =>
 }
 
 .article-shell {
+  min-width: 0;
   padding: clamp(20px, 4vw, 32px);
 }
 
@@ -129,6 +132,7 @@ const nextPost = computed(() =>
   margin: 18px 0 0;
   font-size: 17px;
   line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 .article-section + .article-section {
@@ -144,6 +148,8 @@ const nextPost = computed(() =>
 .article-section li {
   color: var(--muted);
   line-height: 1.8;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .article-section ul {
@@ -152,7 +158,9 @@ const nextPost = computed(() =>
 }
 
 .article-section pre {
+  max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 16px;
   border-radius: 14px;
   background: var(--article-code-bg);
@@ -171,9 +179,14 @@ const nextPost = computed(() =>
   flex-wrap: wrap;
 }
 
+.article-actions :deep(.cyber-btn) {
+  min-width: 0;
+}
+
 .article-nav {
   display: grid;
   gap: 16px;
+  min-width: 0;
 }
 
 .nav-grid {
@@ -182,6 +195,7 @@ const nextPost = computed(() =>
 }
 
 .nav-card {
+  min-width: 0;
   min-height: 190px;
   padding: 20px;
   display: flex;
@@ -212,6 +226,7 @@ const nextPost = computed(() =>
   margin: 0;
   color: var(--text);
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .nav-meta {
@@ -223,14 +238,69 @@ const nextPost = computed(() =>
   color: var(--accent);
 }
 
+@media (max-width: 900px) {
+  .article-shell {
+    padding: 20px;
+  }
+
+  .article-summary {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 760px) {
+  .article-shell,
   .article-actions,
   .nav-card {
     padding: 16px;
   }
 
+  .article-section h2 {
+    font-size: 21px;
+  }
+
+  .article-section pre {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .article-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .article-actions :deep(.cyber-btn) {
+    width: 100%;
+  }
+
   .nav-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .article-meta {
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .article-summary {
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .article-section + .article-section {
+    margin-top: 24px;
+  }
+
+  .article-section h2 {
+    margin: 22px 0 10px;
+    font-size: 19px;
+  }
+
+  .article-section code {
+    font-size: 12px;
   }
 }
 </style>

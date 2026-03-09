@@ -67,21 +67,23 @@ watch(
         <span>{{ menuOpen ? 'Close' : 'Menu' }}</span>
       </button>
 
-      <nav id="site-nav" class="nav-links" :class="{ open: menuOpen }">
-        <RouterLink
-          v-for="link in links"
-          :key="link.to"
-          :to="link.to"
-          class="nav-link"
-          active-class="active"
-        >
-          {{ link.label }}
-        </RouterLink>
-      </nav>
+      <div class="menu-panel" :class="{ open: menuOpen }">
+        <nav id="site-nav" class="nav-links">
+          <RouterLink
+            v-for="link in links"
+            :key="link.to"
+            :to="link.to"
+            class="nav-link"
+            active-class="active"
+          >
+            {{ link.label }}
+          </RouterLink>
+        </nav>
 
-      <div id="site-actions" class="nav-actions" :class="{ open: menuOpen }">
-        <ThemeToggle />
-        <RouterLink class="subscribe" to="/about">Contact</RouterLink>
+        <div id="site-actions" class="nav-actions">
+          <ThemeToggle />
+          <RouterLink class="subscribe" to="/about">Contact</RouterLink>
+        </div>
       </div>
     </header>
   </div>
@@ -179,6 +181,10 @@ watch(
   background: var(--control-hover-bg);
 }
 
+.menu-panel {
+  display: contents;
+}
+
 .nav-links {
   display: flex;
   gap: 14px;
@@ -251,26 +257,61 @@ watch(
     display: inline-flex;
   }
 
+  .menu-panel {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.96);
+    transform-origin: top center;
+    pointer-events: none;
+    transition:
+      max-height 0.4s cubic-bezier(0.22, 1.2, 0.36, 1),
+      opacity 0.22s ease,
+      transform 0.4s cubic-bezier(0.18, 1.24, 0.32, 1);
+  }
+
+  .menu-panel.open {
+    max-height: 320px;
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    pointer-events: auto;
+  }
+
   .nav-links,
   .nav-actions {
-    display: none;
     width: 100%;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.34s cubic-bezier(0.2, 1.1, 0.3, 1);
   }
 
-  .nav-links.open,
-  .nav-actions.open {
-    display: grid;
+  .menu-panel.open .nav-links,
+  .menu-panel.open .nav-actions {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .nav-links.open {
-    grid-column: 1 / -1;
+  .menu-panel.open .nav-links {
+    transition-delay: 0.04s;
+  }
+
+  .menu-panel.open .nav-actions {
+    transition-delay: 0.08s;
+  }
+
+  .nav-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     padding-top: 4px;
   }
 
-  .nav-actions.open {
-    grid-column: 1 / -1;
+  .nav-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
@@ -297,8 +338,8 @@ watch(
     border-radius: 14px;
   }
 
-  .nav-links.open,
-  .nav-actions.open {
+  .nav-links,
+  .nav-actions {
     grid-template-columns: 1fr;
   }
 }
