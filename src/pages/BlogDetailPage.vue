@@ -104,6 +104,14 @@ const nextPost = computed(() =>
 </template>
 
 <style scoped>
+.blog-detail-page {
+  --article-code-bg: rgba(0, 0, 0, 0.28);
+}
+
+:global([data-theme='light']) .blog-detail-page {
+  --article-code-bg: rgba(226, 238, 247, 0.92);
+}
+
 .article-shell {
   padding: clamp(20px, 4vw, 32px);
 }
@@ -147,7 +155,7 @@ const nextPost = computed(() =>
   overflow-x: auto;
   padding: 16px;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.28);
+  background: var(--article-code-bg);
   border: 1px solid rgba(var(--accent-rgb), 0.16);
 }
 
