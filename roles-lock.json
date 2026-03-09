@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "name": "pencil-designer",
+      "source": "JsonLee12138/agent-team",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JsonLee12138/agent-team",
+      "rolePath": ".agents/teams/pencil-designer",
+      "folderHash": "d004d6a62244f5bff201c687e631d5eca3f55a2f9b3a3fdb6208456daddf71b6",
+      "installedAt": "2026-03-09T07:27:22.151772Z",
+      "updatedAt": "2026-03-09T07:27:22.151772Z"
+    },
+    {
+      "name": "vite-react-dev",
+      "source": "JsonLee12138/agent-team",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JsonLee12138/agent-team",
+      "rolePath": ".agents/teams/vite-react-dev",
+      "folderHash": "d4c9abd3cc01445a7c747cc10232b2b2696d4f046e31ebfde1c35050dc39e914",
+      "installedAt": "2026-03-09T07:27:37.530319Z",
+      "updatedAt": "2026-03-09T07:27:37.530319Z"
+    }
+  ]
+}
